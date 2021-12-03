@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def day2p1(commands)
   horizontal_position = 0
   depth = 0
