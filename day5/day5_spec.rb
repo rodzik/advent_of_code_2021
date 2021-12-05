@@ -17,7 +17,7 @@ RSpec.describe 'Day 5' do
       5,5 -> 8,2
     INPUT
 
-    expect(day5p1(input)).to eq(5)
+    expect(day5(input)).to eq(12)
   end
 end
 

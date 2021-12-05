@@ -33,11 +33,29 @@ RSpec.describe Line do
       end
     end
 
-    context "with other coordinates" do
-      it "returns null line" do
-        coordinates = "1,2 -> 3,4"
+    context "with diagonal coordinates" do
+      it "returns diagonal line" do
+        coordinates = "1,1 -> 3,3"
         line = described_class.hv_lines_for(coordinates)
-        expect(line.points).to eq([])
+        expect(line.points).to match_array(
+          [
+            [1, 1],
+            [2, 2],
+            [3, 3]
+          ]
+        )
+      end
+
+      it "returns diagonal line" do
+        coordinates = "3,3 -> 1,1"
+        line = described_class.hv_lines_for(coordinates)
+        expect(line.points).to match_array(
+          [
+            [1, 1],
+            [2, 2],
+            [3, 3]
+          ]
+        )
       end
     end
   end

@@ -3,7 +3,7 @@ class Line
     x1, y1, x2, y2 = coordinates.gsub(" -> ", ",").split(",").map(&:to_i)
     return Horizontal.new(x1, y1, x2, y2) if y1 == y2
     return Vertical.new(x1, y1, x2, y2) if x1 == x2
-    Null.new
+    Diagonal.new(x1, y1, x2, y2)
   end
 
   def initialize(x1, y1, x2, y2)
@@ -31,9 +31,18 @@ class Line
     end
   end
 
-  class Null
+  class Diagonal < Line
     def points
-      []
+      a_x = array(@x1, @x2)
+      a_y = array(@y1, @y2)
+
+      a_x.each_with_index.map { |x, i| [x, a_y[i]] }
+    end
+
+    private
+
+    def array(a,b)
+      a > b ? a.downto(b).to_a : a.upto(b).to_a
     end
   end
 end

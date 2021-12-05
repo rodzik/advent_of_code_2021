@@ -1,8 +1,8 @@
 require_relative 'plane'
 
-def day5p1(input)
+def day5(input)
   Plane.new(input).count_points
 end
 
 input = File.read('day5/input.txt')
-p day5p1(input)
+p day5(input)
