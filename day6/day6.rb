@@ -1,32 +1,19 @@
-class Lanternfish
-  include Comparable
+def day6(input, days)
+  fish = input.split(',').map(&:to_i)
+  cache = {}
 
-  attr_reader :days_till_offspring
-
-  def initialize(days_till_offspring = 8)
-    @days_till_offspring = days_till_offspring
-  end
-
-  def tick
-    if days_till_offspring > 0
-      @days_till_offspring -= 1
-      [self]
-    else
-      @days_till_offspring = 6
-      [self, Lanternfish.new]
-    end
-  end
-
-  def <=>(other)
-    days_till_offspring <=> other.days_till_offspring
-  end
+  fish.map { |f| count(f, days, cache) }.sum
 end
 
-def day6p1(input, days)
-  fish = input.split(',').map { |f| Lanternfish.new(f.to_i) }
-  days.times { fish.map!(&:tick).flatten! }
-  fish.count
+def count(f, days, cache)
+  return 1 if f >= days
+
+  cache[[f, days]] ||= if f == 0
+                         count(6, days - 1, cache) + count(8, days - 1, cache)
+                       else
+                         count(f - 1, days - 1, cache)
+                       end
 end
 
 input = File.read('day6/input.txt')
-p day6p1(input, 80)
+p day6(input, 256)
