@@ -21,4 +21,8 @@ RSpec.describe 'Day 8' do
   it 'counts all 1, 4, 7, 8' do
     expect(day8p1(displays)).to eq(26)
   end
+
+  it 'decodes all displays' do
+    expect(day8p2(displays)).to eq(61_229)
+  end
 end
