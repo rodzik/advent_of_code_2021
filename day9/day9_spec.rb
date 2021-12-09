@@ -14,4 +14,8 @@ RSpec.describe 'Day 9' do
   it 'counts low points' do
     expect(day9p1(input)).to eq(15)
   end
+
+  it 'calculates basins size' do
+    expect(day9p2(input)).to eq(1134)
+  end
 end
