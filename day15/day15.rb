@@ -1,26 +1,5 @@
 require 'pry'
-
-class PriorityQueue
-  attr_reader :q
-
-  def initialize
-    @q = []
-  end
-
-  def <<(e)
-    i = 0
-    @q.each do |x|
-      break if x[1] > e[1]
-      i += 1
-    end
-    @q.insert(i, e)
-  end
-
-  def pop
-    e = @q.shift
-    e.nil? ? e : e[0]
-  end
-end
+require_relative 'priority_queue'
 
 def dijkstra(input, start = [0, 0])
   map = input.split("\n").map { |line| line.chars.map(&:to_i) }
@@ -61,5 +40,28 @@ def adjacent_nodes(current, max_size)
   nodes
 end
 
+def part2(input)
+  cave = map_cave(input)
+  dijkstra(cave)
+end
+
+def map_cave(input)
+  map = input.split("\n").map { |line| line.chars.map(&:to_i) }
+  map.map! do |line|
+    expanded = [line]
+    4.times { |i| expanded << line.map { |e| ((e + i) % 9) + 1 } }
+    expanded.flatten
+  end
+
+  expanded = map.dup
+  4.times do |i|
+    map.each do |row|
+      expanded << row.map { |e| ((e + i) % 9) + 1 }
+    end
+  end
+  expanded.map { |l| l.join }.join("\n")
+end
+
 input = File.read('day15/input.txt')
 p dijkstra(input)
+p part2(input)
