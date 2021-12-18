@@ -1,5 +1,27 @@
 require 'pry'
 
+class PriorityQueue
+  attr_reader :q
+
+  def initialize
+    @q = []
+  end
+
+  def <<(e)
+    i = 0
+    @q.each do |x|
+      break if x[1] > e[1]
+      i += 1
+    end
+    @q.insert(i, e)
+  end
+
+  def pop
+    e = @q.shift
+    e.nil? ? e : e[0]
+  end
+end
+
 def dijkstra(input, start = [0, 0])
   map = input.split("\n").map { |line| line.chars.map(&:to_i) }
   max_i = map.length - 1
@@ -10,6 +32,7 @@ def dijkstra(input, start = [0, 0])
   costs[current] = 0
   parents = {}
   visited = []
+  q = PriorityQueue.new
 
   while !current.nil?
     adjacent_nodes(current, max_i).each do |n|
@@ -17,10 +40,11 @@ def dijkstra(input, start = [0, 0])
       next unless new_cost < costs[n]
       costs[n] = new_cost
       parents[n] = current
+      q << [n, new_cost]
     end
 
     visited << current
-    current = lowest_cost_node(costs, visited)
+    current = q.pop
   end
 
   costs[finish]
@@ -35,11 +59,6 @@ def adjacent_nodes(current, max_size)
   nodes << [y, x + 1] if x < max_size
   nodes << [y + 1, x] if y < max_size
   nodes
-end
-
-def lowest_cost_node(costs, visited)
-  unvisited = costs.keys - visited
-  unvisited.min_by { |n| costs[n] }
 end
 
 input = File.read('day15/input.txt')
